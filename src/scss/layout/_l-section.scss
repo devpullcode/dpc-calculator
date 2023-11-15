@@ -1,0 +1,7 @@
+@use '../base/variables' as v;
+
+.l-section {
+  &--bg-primary {
+    background: v.$color-feldgrau;
+  }
+}

@@ -1,0 +1,29 @@
+@use '../base/variables' as v;
+
+/* ========== color txt ========== */
+.u-txt {
+  &-white {
+    color: white;
+  }
+}
+
+/* ========== background ========== */
+.u-bg {
+  &-red {
+    background: v.$color-feldgrau;
+  }
+}
+
+/* ========== wave ========== */
+.u-wave {
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 11rem;
+    background: url(../img/.svg) no-repeat;
+  }
+}

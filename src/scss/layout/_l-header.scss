@@ -1,0 +1,36 @@
+@use '../base/mixins' as m;
+
+.l-header {
+  position: relative;
+
+  // &::after {
+  //   content: '';
+  //   display: block;
+  //   position: absolute;
+  //   inset: 0;
+  //   z-index: -1;
+
+  // /* Fondo por defecto para navegadores que no soportan webp o avif */
+  // background-image: url('../img/header.jpg');
+
+  // /* Fondo para navegadores que soportan webp */
+  // @supports (background-image: url('data:image/webp;base64,UklGRhIAAABXRUJQVlA4TBEAAAAvAAAAEAcQERGIiP4HAA==')) {
+  //   background-image: url('../img/header.webp');
+  // }
+
+  // /* Fondo para navegadores que soportan avif (en el futuro, si Safari lo soporta) */
+  // @supports (background-image: url('data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAG1pZjEAAACgbWV0YQAAAAAAAAAOcGFzcAAAAAAAQAAACryb3ZhUAAAAA=')) {
+  //   background-image: url('../img/header.avif');
+  // }
+  //   background-repeat: no-repeat;
+  //   background-size: cover;
+  //   background-position: center;
+  //   filter: brightness(0.5);
+
+  //   @include m.media('md') {
+  //     & {
+  //       background-position: center top;
+  //     }
+  //   }
+  // }
+}
