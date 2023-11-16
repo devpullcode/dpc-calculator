@@ -1,3 +1,6 @@
+@use '../base/variables' as v;
+
 .m-container-control {
-  padding: 27px 27px 39px 27px;
+  padding: 48px 49px 48px 49px;
+  background-color: v.$color-viridian;
 }
