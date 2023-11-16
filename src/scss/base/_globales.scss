@@ -1,5 +1,5 @@
 /* ========== typography ========== */
-@use "variables" as v;
+@use 'variables' as v;
 
 html {
   font-size: 16px;
@@ -12,6 +12,8 @@ html {
 }
 
 body {
+  height: 100vh;
+
   font-family: v.$font-primary;
   line-height: 1.8;
   background-color: v.$color-mint-cream;
@@ -19,15 +21,15 @@ body {
 
 /* ========== text ========== */
 h1 {
-  font-size: map-get(v.$font-sizes, "xxl");
+  font-size: map-get(v.$font-sizes, 'xxl');
   margin-bottom: map-get(v.$interval-values, 6);
 }
 h2 {
-  font-size: map-get(v.$font-sizes, "xl");
+  font-size: map-get(v.$font-sizes, 'xl');
   margin-bottom: map-get(v.$interval-values, 4);
 }
 h3 {
-  font-size: map-get(v.$font-sizes, "lg");
+  font-size: map-get(v.$font-sizes, 'lg');
   margin-bottom: map-get(v.$interval-values, 2);
 }
 
