@@ -1,0 +1,8 @@
+@use '../base/variables' as v;
+
+.m-container-operation {
+  height: 404px;
+  padding: 27px 48px 39px 27px;
+
+  background-color: v.$color-cambridge-blue;
+}
