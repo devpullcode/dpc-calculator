@@ -11,5 +11,66 @@
 
     <script src="build/js/main.js"></script>
   </head>
-  <body></body>
+  <body>
+    <main class="l-main">
+      <div class="m-calc">
+        <div class="m-container-operation">
+          <section class="m-history">
+            <div class="m-history__row">
+              <div class="m-history__anchor btn-inactive btn-hidden"><img src="./build/img/svg/anchor.svg" class="m-history__img-anchor" alt="anchor.svg" /></div>
+              <p class="m-history__operation">7 + 7</p>
+              <p class="m-history__result">14</p>
+            </div>
+            <div class="m-history__row">
+              <div class="m-history__anchor"><img src="./build/img/svg/anchor.svg" class="m-history__img-anchor" alt="anchor.svg" /></div>
+              <p class="m-history__operation">14 + 2</p>
+              <p class="m-history__result">28</p>
+            </div>
+            <div class="m-history__row">
+              <div class="m-history__anchor btn-inactive btn-hidden"><img src="./build/img/svg/anchor.svg" class="m-history__img-anchor" alt="anchor.svg" /></div>
+              <p class="m-history__operation">28 - 3</p>
+              <p class="m-history__result">25</p>
+            </div>
+            <div class="m-history__row">
+              <div class="m-history__anchor btn-inactive btn-hidden"><img src="./build/img/svg/anchor.svg" class="m-history__img-anchor" alt="anchor.svg" /></div>
+              <p class="m-history__operation">25 + 206</p>
+              <p class="m-history__result">231</p>
+            </div>
+          </section>
+
+          <section class="m-calculation">
+            <div class="m-calculation__state">
+              <img src="./build/img/svg/loop-operation.svg" class="m-calculation__img-state btn-inactive" alt="loop-operation.svg" />
+            </div>
+            <div class="m-calculation__results">
+              <output class="m-calculation__result">231</output>
+              <div class="m-calculation__operation">0</div>
+            </div>
+          </section>
+        </div>
+        <div class="m-container-control">
+          <div class="m-btns">
+            <button class="m-btns__btn m-btns__btn--number" data-value="9">9</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="8">8</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="7">7</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="6">6</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="5">5</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="4">4</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="3">3</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="2">2</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="1">1</button>
+            <button class="m-btns__btn m-btns__btn--number" data-value="0">0</button>
+            <button class="m-btns__btn m-btns__btn--operation" data-value="AC">AC</button>
+            <button class="m-btns__btn m-btns__btn--operation" data-value="+"><i class="fa-solid fa-plus"></i></button>
+            <button class="m-btns__btn m-btns__btn--operation" data-value="-"><i class="fa-solid fa-minus"></i></button>
+            <button class="m-btns__btn m-btns__btn--operation" data-value="="><i class="fa-solid fa-equals"></i></button>
+            <button class="m-btns__btn m-btns__btn--operation" data-value="*"><i class="fa-solid fa-xmark"></i></button>
+            <button class="m-btns__btn m-btns__btn--operation" data-value="/"><i class="fa-solid fa-divide"></i></button>
+            <button class="m-btns__btn m-btns__btn--operation" data-value="percent"><i class="fa-solid fa-percent"></i></button>
+            <button class="m-btns__btn m-btns__btn--operation" data-value="negative"><i class="fa-solid fa-plus-minus"></i></button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
