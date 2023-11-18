@@ -2,12 +2,13 @@
 
 .m-calculation {
   display: flex;
-  justify-content: space-between;
 
   // ========== state ==========
   &__state {
     width: 20px;
     height: 25px;
+    position: relative;
+    left: -8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,7 +19,7 @@
 
   // ========== results ==========
   &__results {
-    width: 90%;
+    width: 287px;
   }
   &__result {
     width: 100%;
