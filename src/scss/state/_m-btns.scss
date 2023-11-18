@@ -1,0 +1,14 @@
+@use '../base/variables' as v;
+
+.m-btns {
+  &__btn:hover {
+    border: 2px solid v.$color-mint-green;
+    transition: border 50ms, background-color 200ms;
+  }
+  &__btn:active {
+    background-color: v.$color-mint-green;
+    color: v.$color-viridian;
+
+    transition: background-color 100ms;
+  }
+}
