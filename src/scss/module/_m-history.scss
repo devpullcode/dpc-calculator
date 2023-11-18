@@ -1,7 +1,7 @@
 @use '../base/variables' as v;
 
 .m-history {
-  width: 100%;
+  width: 311px;
   height: 250px;
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@
     font-weight: 600;
 
     &::before {
-      width: calc(100% - 30px);
+      width: calc(311px - 20px);
       height: 1px;
       content: '';
       display: block;
@@ -30,7 +30,8 @@
   }
   &__anchor {
     height: 90%;
-    margin-right: 10px;
+    position: relative;
+    left: -8px;
     flex-basis: 20px;
     display: flex;
     align-items: center;
