@@ -40,8 +40,10 @@
   };
 
   const showValueUI = valueBtn => {
-    const elMCalOperation = document.querySelector('.m-calculation__operation');
     const elMCalResult = document.querySelector('.m-calculation__result');
+    const elMCalOperation = document.querySelector('.m-calculation__operation');
+    const elBtnAC = document.querySelector('.m-btns__btn[data-value="AC"]');
+    const elBtnC = document.querySelector('.m-btns__btn[data-value="C"]');
 
     if (valueBtn !== 'AC' && elMCalOperation.textContent === '0') elMCalOperation.textContent = '';
 
@@ -61,10 +63,19 @@
       case '=':
         let resultOperation = calcOperation();
         elMCalResult.textContent = resultOperation;
+
+        elBtnC.dataset.value = 'AC';
+        elBtnC.textContent = 'AC';
         break;
       case 'AC':
         elMCalResult.textContent = '0';
-        console.log('operation: ', operation);
+        break;
+      case 'C':
+        elMCalOperation.textContent = '0';
+        operation = '';
+
+        elBtnC.dataset.value = 'AC';
+        elBtnC.textContent = 'AC';
         break;
       case 'porcent':
         break;
@@ -72,7 +83,14 @@
         convertNegPos(valueBtn);
         break;
       default:
-        if (valueBtn !== '=') elMCalOperation.insertAdjacentHTML('beforeend', valueBtn);
+        if (valueBtn !== '=') {
+          elMCalOperation.insertAdjacentHTML('beforeend', valueBtn);
+
+          if (elBtnAC && elBtnAC.dataset.value !== 'C') {
+            elBtnAC.dataset.value = 'C';
+            elBtnAC.textContent = 'C';
+          }
+        }
     }
   };
 
@@ -98,11 +116,11 @@
       createOperation(valueBtn, true);
       check = true;
     }
-    if (operatorsRegex.test(valueBtn) && valueBtn !== 'AC') {
+    if (operatorsRegex.test(valueBtn) && valueBtn !== 'AC' && valueBtn !== 'C') {
       createOperation(valueBtn, false);
       check = true;
     }
-    if (valueBtn === 'AC') check = true;
+    if (valueBtn === 'AC' || valueBtn === 'C') check = true;
 
     return check;
   };
@@ -115,10 +133,12 @@
     if (operation === '' && operatorsRegex.test(valueBtn) && valueBtn !== 'AC') return false;
 
     // ========== limits ==========
-    // limits the number of digits for the operation
-    if (!(operation.split(' ').join('').length < 18)) return false;
-    // blocks the possibility of the last character being an operator
-    if (operation.split(' ').join('').length === 17 && valueBtn !== '=' && operatorsRegex.test(valueBtn)) return false;
+    if (valueBtn !== '=' && valueBtn !== 'C') {
+      // limits the number of digits for the operation
+      if (!(operation.split(' ').join('').length < 18)) return false;
+      // blocks the possibility of the last character being an operator
+      if (operation.split(' ').join('').length === 17 && operatorsRegex.test(valueBtn)) return false;
+    }
 
     // ========== equal ==========
     // checks that there is at least one operator before calculating the operation
