@@ -83,5 +83,9 @@
   // ========== btn operation ==========
   &__btn--operation {
     background-color: v.$color-feldgrau;
+
+    & > i {
+      pointer-events: none;
+    }
   }
 }
