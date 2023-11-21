@@ -1,6 +1,6 @@
 (() => {
   const elMbtns = document.querySelector('.m-btns');
-  const operatorsRegex = /[-|\+|=|\*|\/|percent|negative]/;
+  const operatorsRegex = /[-|\+|=|\*|\/|percent|negative|AC|C]/;
   const decimalRegex = /^-?\d+\.\d+$/;
   const numberRegex = /^-?\d+(\.\d+)?$/;
   let operation = '';
@@ -30,15 +30,11 @@
           break;
       }
 
-      console.log('resultOperation.toString(): ', resultOperation.toString());
       if (decimalRegex.test(resultOperation.toString())) resultOperation = Number(resultOperation.toFixed(2));
     }
 
     elMCalOperation.textContent = 0;
-
     operation = '';
-    console.log('fragmentOperation:', fragmentOperation);
-    console.log('resultOperation: ', resultOperation);
 
     return resultOperation;
   };
@@ -47,7 +43,7 @@
     const elMCalOperation = document.querySelector('.m-calculation__operation');
     const elMCalResult = document.querySelector('.m-calculation__result');
 
-    if (elMCalOperation.textContent === '0') elMCalOperation.textContent = '';
+    if (valueBtn !== 'AC' && elMCalOperation.textContent === '0') elMCalOperation.textContent = '';
 
     switch (valueBtn) {
       case '+':
@@ -64,8 +60,11 @@
         break;
       case '=':
         let resultOperation = calcOperation();
-        console.log('resultOperation: ', resultOperation);
         elMCalResult.textContent = resultOperation;
+        break;
+      case 'AC':
+        elMCalResult.textContent = '0';
+        console.log('operation: ', operation);
         break;
       case 'porcent':
         break;
@@ -99,10 +98,11 @@
       createOperation(valueBtn, true);
       check = true;
     }
-    if (operatorsRegex.test(valueBtn)) {
+    if (operatorsRegex.test(valueBtn) && valueBtn !== 'AC') {
       createOperation(valueBtn, false);
       check = true;
     }
+    if (valueBtn === 'AC') check = true;
 
     return check;
   };
@@ -112,7 +112,7 @@
     // verifies that the data is correct
     if (!valueBtn) return false;
     // prevents adding an operator as the first value
-    if (operation === '' && operatorsRegex.test(valueBtn)) return false;
+    if (operation === '' && operatorsRegex.test(valueBtn) && valueBtn !== 'AC') return false;
 
     // ========== limits ==========
     // limits the number of digits for the operation
@@ -133,6 +133,5 @@
     if (!checkStatus(valueBtn)) return;
 
     showValueUI(valueBtn);
-    console.log('e.currentTarget: ', e.currentTarget);
   });
 })();
