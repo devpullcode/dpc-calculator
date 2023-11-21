@@ -38,6 +38,10 @@
   &__operation {
     width: 100%;
 
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
     text-align: right;
     font-size: 18px;
     color: v.$color-mint-cream;
@@ -50,6 +54,11 @@
       height: 0;
 
       scrollbar-width: none;
+    }
+
+    & > i {
+      font-size: 13px;
+      margin: 0 5px;
     }
   }
 }
