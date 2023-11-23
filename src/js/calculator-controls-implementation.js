@@ -1,12 +1,15 @@
 (() => {
   const elMbtns = document.querySelector('.m-btns');
+  const elMCalResult = document.querySelector('.m-calculation__result');
+  const elMCalOperation = document.querySelector('.m-calculation__operation');
   const operatorsRegex = /[-|\+|=|\*|\/|percent|negative|AC|C]/;
   const decimalRegex = /^-?\d+\.\d+$/;
   const numberRegex = /^-?\d+(\.\d+)?$/;
   let operation = '';
+  let originalOperation;
+  let activePercent = false;
 
   const calcOperation = () => {
-    const elMCalOperation = document.querySelector('.m-calculation__operation');
     const fragmentOperation = operation.split(' ');
     let resultOperation = Number(fragmentOperation.shift());
 
@@ -24,8 +27,6 @@
         case '/':
           resultOperation /= Number(fragmentOperation.shift());
           break;
-        case 'porcent':
-          break;
         case 'negative':
           break;
       }
@@ -39,9 +40,38 @@
     return resultOperation;
   };
 
+  const applyPorcentage = () => {
+    const fragmentOperation = operation.split(' ');
+    let lastValue = fragmentOperation.at(-1);
+    const fragOrigiOper = originalOperation.split(' ');
+    let lastValueOrigiOper = fragOrigiOper.at(-1);
+
+    if (!Number.isNaN(Number(lastValue)) && !activePercent) {
+      lastValue = lastValue / 100;
+      activePercent = true;
+    } else {
+      lastValue = lastValueOrigiOper;
+      activePercent = false;
+    }
+
+    fragmentOperation.splice(-1, 1, lastValue);
+    operation = fragmentOperation.join(' ');
+
+    return lastValue;
+  };
+
+  const applyNegative = () => {
+    const fragmentOperation = operation.split(' ');
+    let lastValue = fragmentOperation.at(-1);
+
+    lastValue = lastValue * -1;
+    fragmentOperation.splice(-1, 1, lastValue);
+    operation = fragmentOperation.join(' ');
+
+    return lastValue;
+  };
+
   const showValueUI = valueBtn => {
-    const elMCalResult = document.querySelector('.m-calculation__result');
-    const elMCalOperation = document.querySelector('.m-calculation__operation');
     const elBtnAC = document.querySelector('.m-btns__btn[data-value="AC"]');
     const elBtnC = document.querySelector('.m-btns__btn[data-value="C"]');
 
@@ -77,36 +107,39 @@
         elBtnC.dataset.value = 'AC';
         elBtnC.textContent = 'AC';
         break;
-      case 'porcent':
+      case 'percent':
+        elMCalOperation.lastChild.remove();
+        elMCalOperation.insertAdjacentHTML('beforeend', applyPorcentage());
+
         break;
       case 'negative':
-        convertNegPos(valueBtn);
+        elMCalOperation.lastChild.remove();
+        elMCalOperation.insertAdjacentHTML('beforeend', applyNegative());
         break;
       default:
-        if (valueBtn !== '=') {
-          elMCalOperation.insertAdjacentHTML('beforeend', valueBtn);
+        // console.log(operation);
+        const lastValue = operation.split(' ').at(-1);
+        // console.log(lastValue);
 
-          if (elBtnAC && elBtnAC.dataset.value !== 'C') {
-            elBtnAC.dataset.value = 'C';
-            elBtnAC.textContent = 'C';
-          }
+        if (lastValue.length > 1) elMCalOperation.lastChild.remove();
+
+        const reconstructedValue = lastValue.length > 1 ? lastValue.slice(0, -1) + valueBtn : valueBtn;
+        elMCalOperation.insertAdjacentHTML('beforeend', reconstructedValue);
+
+        if (elBtnAC && elBtnAC.dataset.value !== 'C') {
+          elBtnAC.dataset.value = 'C';
+          elBtnAC.textContent = 'C';
         }
+
+        activePercent = false;
     }
+
+    if (valueBtn !== 'percent') originalOperation = operation;
   };
 
   const createOperation = (valueBtn, isNumber) => {
-    const elMCalOperation = document.querySelector('.m-calculation__operation');
-
-    // prettier-ignore
-    if (operatorsRegex.test(valueBtn) && 
-        !numberRegex.test(elMCalOperation.lastChild?.textContent)) {
-      elMCalOperation.lastChild.remove();
-      operation = operation.slice(0, -3);
-      console.log('operation.slice(0, -3):', operation.slice(0, -3));
-    }
-
     if (isNumber) operation += valueBtn;
-    if (!isNumber && valueBtn !== '=') operation += ' ' + valueBtn + ' ';
+    if (!isNumber && valueBtn !== 'percent' && valueBtn !== 'negative') operation += ' ' + valueBtn + ' ';
   };
 
   const verifyValue = valueBtn => {
@@ -116,21 +149,33 @@
       createOperation(valueBtn, true);
       check = true;
     }
-    if (operatorsRegex.test(valueBtn) && valueBtn !== 'AC' && valueBtn !== 'C') {
+    if (operatorsRegex.test(valueBtn) && valueBtn !== 'AC' && valueBtn !== 'C' && valueBtn !== '=') {
       createOperation(valueBtn, false);
       check = true;
     }
-    if (valueBtn === 'AC' || valueBtn === 'C') check = true;
+    if (valueBtn === 'AC' || valueBtn === 'C' || valueBtn === '=') check = true;
 
     return check;
   };
 
   const checkStatus = valueBtn => {
+    const fragmentOperation = operation.trim().split(' ');
+    let lastValue = fragmentOperation.at(-1);
+
     // ========== verify data ==========
+    // Cancels the percentage operation with operators
+    if ((valueBtn === 'percent' || valueBtn === 'negative') && operatorsRegex.test(lastValue)) {
+      return false;
+    }
     // verifies that the data is correct
     if (!valueBtn) return false;
     // prevents adding an operator as the first value
     if (operation === '' && operatorsRegex.test(valueBtn) && valueBtn !== 'AC') return false;
+    // prevents the addition of consecutive operators to maintain the validity of the mathematical expression
+    if (operatorsRegex.test(valueBtn) && !numberRegex.test(elMCalOperation.lastChild?.textContent)) {
+      elMCalOperation.lastChild.remove();
+      operation = operation.slice(0, -3);
+    }
 
     // ========== limits ==========
     if (valueBtn !== '=' && valueBtn !== 'C') {
