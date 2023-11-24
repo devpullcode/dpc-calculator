@@ -63,10 +63,16 @@
   const applyNegative = () => {
     const fragmentOperation = operation.split(' ');
     let lastValue = fragmentOperation.at(-1);
+    const fragOrigiOper = originalOperation.split(' ');
+    let lastValueOrigiOper = fragOrigiOper.at(-1);
 
     lastValue = lastValue * -1;
     fragmentOperation.splice(-1, 1, lastValue);
     operation = fragmentOperation.join(' ');
+
+    lastValueOrigiOper = lastValueOrigiOper * -1;
+    fragOrigiOper.splice(-1, 1, lastValueOrigiOper);
+    originalOperation = fragOrigiOper.join(' ');
 
     return lastValue;
   };
@@ -117,9 +123,7 @@
         elMCalOperation.insertAdjacentHTML('beforeend', applyNegative());
         break;
       default:
-        // console.log(operation);
         const lastValue = operation.split(' ').at(-1);
-        // console.log(lastValue);
 
         if (lastValue.length > 1) elMCalOperation.lastChild.remove();
 
@@ -134,7 +138,7 @@
         activePercent = false;
     }
 
-    if (valueBtn !== 'percent') originalOperation = operation;
+    if (valueBtn !== 'percent' && valueBtn !== 'negative') originalOperation = operation;
   };
 
   const createOperation = (valueBtn, isNumber) => {
@@ -164,8 +168,10 @@
 
     // ========== verify data ==========
     // Cancels the percentage operation with operators
-    if ((valueBtn === 'percent' || valueBtn === 'negative') && operatorsRegex.test(lastValue)) {
-      return false;
+    if (valueBtn === 'percent' || valueBtn === 'negative') {
+      if (operatorsRegex.test(lastValue) && lastValue.length === 1) {
+        return false;
+      }
     }
     // verifies that the data is correct
     if (!valueBtn) return false;
