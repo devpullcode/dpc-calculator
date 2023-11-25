@@ -124,7 +124,6 @@
         break;
       default:
         const lastValue = operation.split(' ').at(-1);
-
         if (lastValue.length > 1) elMCalOperation.lastChild.remove();
 
         const reconstructedValue = lastValue.length > 1 ? lastValue.slice(0, -1) + valueBtn : valueBtn;
@@ -167,6 +166,12 @@
     let lastValue = fragmentOperation.at(-1);
 
     // ========== verify data ==========
+    if (valueBtn === '0' && lastValue.length === 0) {
+      return false;
+    }
+    if (valueBtn === '0' && lastValue.length === 1 && operatorsRegex.test(lastValue)) {
+      return false;
+    }
     // Cancels the percentage operation with operators
     if (valueBtn === 'percent' || valueBtn === 'negative') {
       if (operatorsRegex.test(lastValue) && lastValue.length === 1) {
