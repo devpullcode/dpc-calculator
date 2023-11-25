@@ -40,10 +40,27 @@
     return resultOperation;
   };
 
-  const applyPorcentage = () => {
-    const fragmentOperation = operation.split(' ');
+  const deleteOperator = () => {
+    let fragmentOperation = operation.split(' ').filter(String);
     let lastValue = fragmentOperation.at(-1);
-    const fragOrigiOper = originalOperation.split(' ');
+    const fragOrigiOper = originalOperation.split(' ').filter(String);
+    let lastValueOrigiOper = fragOrigiOper.at(-1);
+
+    lastValue = lastValue.slice(0, -1);
+    fragmentOperation.splice(-1, 1, lastValue);
+    operation = fragmentOperation.join(' ');
+
+    lastValueOrigiOper = lastValueOrigiOper.slice(0, -1);
+    fragOrigiOper.splice(-1, 1, lastValueOrigiOper);
+    originalOperation = fragOrigiOper.join(' ');
+
+    return operation.length > 0 ? lastValue : '0';
+  };
+
+  const applyPorcentage = () => {
+    const fragmentOperation = operation.split(' ').filter(String);
+    let lastValue = fragmentOperation.at(-1);
+    const fragOrigiOper = originalOperation.split(' ').filter(String);
     let lastValueOrigiOper = fragOrigiOper.at(-1);
 
     if (!Number.isNaN(Number(lastValue)) && !activePercent) {
@@ -61,9 +78,9 @@
   };
 
   const applyNegative = () => {
-    const fragmentOperation = operation.split(' ');
+    const fragmentOperation = operation.split(' ').filter(String);
     let lastValue = fragmentOperation.at(-1);
-    const fragOrigiOper = originalOperation.split(' ');
+    const fragOrigiOper = originalOperation.split(' ').filter(String);
     let lastValueOrigiOper = fragOrigiOper.at(-1);
 
     lastValue = lastValue * -1;
@@ -113,6 +130,16 @@
         elBtnC.dataset.value = 'AC';
         elBtnC.textContent = 'AC';
         break;
+      case 'erase':
+        const value = deleteOperator();
+
+        elMCalOperation.lastChild.remove();
+        elMCalOperation.insertAdjacentHTML('beforeend', value);
+        if (value === '0') {
+          elBtnC.dataset.value = 'AC';
+          elBtnC.textContent = 'AC';
+        }
+        break;
       case 'percent':
         elMCalOperation.lastChild.remove();
         elMCalOperation.insertAdjacentHTML('beforeend', applyPorcentage());
@@ -137,12 +164,12 @@
         activePercent = false;
     }
 
-    if (valueBtn !== 'percent' && valueBtn !== 'negative') originalOperation = operation;
+    if (valueBtn !== 'percent' && valueBtn !== 'negative' && valueBtn !== 'erase') originalOperation = operation;
   };
 
   const createOperation = (valueBtn, isNumber) => {
     if (isNumber) operation += valueBtn;
-    if (!isNumber && valueBtn !== 'percent' && valueBtn !== 'negative') operation += ' ' + valueBtn + ' ';
+    if (!isNumber && valueBtn !== 'percent' && valueBtn !== 'negative' && valueBtn !== 'erase') operation += ' ' + valueBtn + ' ';
   };
 
   const verifyValue = valueBtn => {
@@ -183,7 +210,7 @@
     // prevents adding an operator as the first value
     if (operation === '' && operatorsRegex.test(valueBtn) && valueBtn !== 'AC') return false;
     // prevents the addition of consecutive operators to maintain the validity of the mathematical expression
-    if (operatorsRegex.test(valueBtn) && !numberRegex.test(elMCalOperation.lastChild?.textContent)) {
+    if (operatorsRegex.test(valueBtn) && !numberRegex.test(elMCalOperation.lastChild?.textContent) && valueBtn !== 'erase') {
       elMCalOperation.lastChild.remove();
       operation = operation.slice(0, -3);
     }
