@@ -268,4 +268,15 @@
 
     showValueUI(valueBtn);
   });
+  elMCalResult.addEventListener('click', function (e) {
+    console.log(e.target.textContent);
+    const value = e.target.textContent;
+
+    if (value === '0') return;
+    if (elMCalOperation.textContent === '0') elMCalOperation.textContent = '';
+
+    elMCalOperation.insertAdjacentHTML('beforeend', value);
+    operation = operation + value;
+    originalOperation = operation;
+  });
 })();
