@@ -1,10 +1,18 @@
 @use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 .m-calc {
   width: 383px;
   height: 700px;
-  border-radius: 22px;
 
+  @include m.media('lg') {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+  }
+
+  border-radius: 22px;
   background-color: v.$color-feldgrau;
   box-shadow: -20px -20px 50px 0px #f6fff8, 20px 20px 50px 0px rgba(155, 172, 216, 0.25);
   overflow: hidden;

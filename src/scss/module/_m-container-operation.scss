@@ -1,8 +1,17 @@
 @use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 .m-container-operation {
   height: 404px;
   padding: 27px 27px 39px 27px;
+
+  @include m.media('lg') {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
 
   background-color: v.$color-cambridge-blue;
 }
