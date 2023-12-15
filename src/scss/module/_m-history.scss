@@ -1,4 +1,5 @@
 @use '../base/variables' as v;
+@use '../base/mixins' as m;
 
 .m-history {
   width: 311px;
@@ -9,6 +10,10 @@
   padding-left: 5px;
 
   overflow-y: scroll;
+
+  @include m.media('lg') {
+    max-height: 140px;
+  }
 
   &::-webkit-scrollbar {
     display: none; /* Para Chrome, Safari y Opera */
