@@ -34,6 +34,8 @@
       if (decimalRegex.test(resultOperation.toString())) resultOperation = Number(resultOperation.toFixed(2));
     }
 
+    addHistoryOperation(operation, resultOperation);
+
     elMCalOperation.textContent = 0;
     operation = '';
 
