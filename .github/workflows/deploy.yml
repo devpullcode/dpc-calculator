@@ -22,13 +22,28 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: gulp buildForDeploy
+        run: NODE_ENV=production gulp buildForDeploy
 
       - name: Copy index.html to build directory
         run: cp index.html build/
 
-      - name: Update CSS path in index.html
+      - name: Update main.css path in index.html
         run: sed -i 's|href="build/css/main.css"|href="css/main.css"|' build/index.html
+
+      - name: Update fontawesome.css path in index.html
+        run: sed -i 's|href="build/css/fontawesome.css"|href="css/fontawesome.css"|' build/index.html
+
+      - name: Update normalize path in index.html
+        run: sed -i 's|href="build/css/normalize.css"|href="css/normalize.css"|' build/index.html
+
+      - name: Update script paths in index.html
+        run: sed -i 's|src="build/js/|src="js/|' build/index.html
+
+      - name: Update imgs path in index.html
+        run: sed -i 's|src="build/img/|src="img/|' build/index.html
+
+      - name: Update source/img path in index.html
+        run: sed -i 's|srcset="build/img/|srcset="img/|' build/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
